@@ -3,8 +3,8 @@ TrajectoryPlannerROS:
 # Robot Configuration Parameters
   max_vel_x: 0.5 # X 方向最大速度
   min_vel_x: 0.1 # X 方向最小速速
-  max_vel_y: 0.0 # Y 方向最大速度
-  min_vel_y: 0.0 # Y 方向最小速速
+  max_vel_y: 0.5 # Y 方向最大速度
+  min_vel_y: 0.1 # Y 方向最小速速
 
   max_vel_theta:  1.0
   min_vel_theta: -1.0
@@ -12,7 +12,7 @@ TrajectoryPlannerROS:
   min_in_place_vel_theta: 1.0
 
   acc_lim_x: 1.0 # X 加速限制
-  acc_lim_y: 0.0 # Y 加速限制
+  acc_lim_y: 1.0 # Y 加速限制
   acc_lim_theta: 0.6 # 角速度加速限制（rad）
 
 # Goal Tolerance Parameters，目标公差
@@ -21,7 +21,7 @@ TrajectoryPlannerROS:
 
 # Differential-drive robot configuration
 # 是否是全向移动机器人
-  holonomic_robot: false
+  holonomic_robot: true
 
 # Forward Simulation Parameters，前进模拟参数
   sim_time: 0.8     # 数值越大，本地路径规划会越贴近于全局路径规划；如果说机器人被困住，可以调这个参数
