@@ -1,0 +1,10 @@
+<!-- 组合小车底盘与摄像头与雷达 -->
+<robot name="my_car_camera" xmlns:xacro="http://wiki.ros.org/xacro">
+    <!-- <xacro:include filename="head.urdf.xacro" /> -->
+    <xacro:include filename="$(find pkg01_model)/urdf/urdf/CyberNaviRobot.urdf" />
+    <xacro:include filename="gzsim/move_4omni.urdf.xacro" />
+    <xacro:include filename="gzsim/laser.urdf.xacro" />
+    <xacro:include filename="gzsim/wheel_friction.urdf.xacro" />
+    <!-- <xacro:include filename="gzsim/camera.urdf.xacro" />
+    <xacro:include filename="gzsim/kinect.urdf.xacro" /> -->
+</robot>

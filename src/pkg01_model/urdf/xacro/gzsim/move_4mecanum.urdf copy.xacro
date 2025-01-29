@@ -1,0 +1,58 @@
+<robot name="my_car_move" xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <!-- 【修正】标准化参数命名 -->
+    <xacro:property name="wheel_separation_y" value="0.093" />  <!-- 左右轮距 -->
+    <xacro:property name="wheel_separation_x" value="0.085" />  <!-- 前后轴距 -->
+    <xacro:property name="wheel_radius" value="0.0375" />
+
+    <!-- 传动实现:用于连接控制器与关节 -->
+    <xacro:macro name="joint_trans" params="joint_name">
+        <transmission name="${joint_name}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${joint_name}">
+                <!-- 【修改】全向轮需要位置控制接口 -->
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${joint_name}_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <!-- 【重要修改】添加四个全向轮传动装置 -->
+    <xacro:joint_trans joint_name="left_front_wheel_joint" />
+    <xacro:joint_trans joint_name="right_front_wheel_link" />
+    <xacro:joint_trans joint_name="left_rear_wheel_joint" />
+    <xacro:joint_trans joint_name="right_rear_wheel_joint" />
+
+    <!-- 【关键修正】控制器配置 -->
+    <gazebo>
+        <plugin name="mecanum_drive" filename="libgazebo_ros_mecanum_drive.so">
+            <rosDebugLevel>Debug</rosDebugLevel>
+            <legacyMode>false</legacyMode>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
+            
+            <frontLeftJoint>left_front_wheel_joint</frontLeftJoint>
+            <frontRightJoint>right_front_wheel_link</frontRightJoint>
+            <backLeftJoint>left_rear_wheel_joint</backLeftJoint>
+            <backRightJoint>right_rear_wheel_joint</backRightJoint>
+            
+            <wheelSeparationX>${wheel_separation_x}</wheelSeparationX>
+            <wheelSeparationY>${wheel_separation_y}</wheelSeparationY>
+            <wheelRadius>${wheel_radius}</wheelRadius>
+            <wheelTorque>15</wheelTorque>
+            <mecanumAngle>0.7854</mecanumAngle>
+            <kinematicType>mecanum</kinematicType>
+            
+            <!-- 新增动态参数 -->
+            <wheelAcceleration>1.8</wheelAcceleration>
+            <publishWheelJointState>true</publishWheelJointState>
+            <updateRate>100.0</updateRate>
+        </plugin>
+    </gazebo>
+
+</robot>

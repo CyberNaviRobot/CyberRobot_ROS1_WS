@@ -1,0 +1,19 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <xacro:macro name="wheel_friction" params="wheel_link">
+        <gazebo reference="${wheel_link}">
+            <material>Gazebo/Black</material>
+            <mu>1.0</mu>   <!-- 增大切向摩擦 -->
+            <mu2>1.0</mu2> <!-- 增大法向摩擦 -->
+            <kp>100000</kp>  <!-- 增加刚度，提高控制效果 -->
+            <kd>1</kd>      <!-- 增加阻尼，减少抖动 -->
+        </gazebo>
+    </xacro:macro>
+
+    <!-- 对所有轮子增加摩擦 -->
+    <xacro:wheel_friction wheel_link="left_front_wheel_link"/>
+    <xacro:wheel_friction wheel_link="right_front_wheel_link"/>
+    <xacro:wheel_friction wheel_link="left_rear_wheel_link"/>
+    <xacro:wheel_friction wheel_link="right_rear_wheel_link"/>
+
+</robot>
