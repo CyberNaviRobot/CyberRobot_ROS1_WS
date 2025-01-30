@@ -1,11 +1,23 @@
 <launch>
+    <!-- 导航路径规划公共参数 -->
+    <rosparam file="$(find pkg03_nav1)/param/nav/move_base_params.yaml" command="load" ns="move_base"/>
 
-    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
-        <rosparam file="$(find pkg03_nav1)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
-        <rosparam file="$(find pkg03_nav1)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
-        <rosparam file="$(find pkg03_nav1)/param/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find pkg03_nav1)/param/global_costmap_params.yaml" command="load" />
-        <rosparam file="$(find pkg03_nav1)/param/base_local_planner_params.yaml" command="load" />
+    <!-- 全局规划器配置 -->
+    <param name="move_base/base_global_planner" type="string" value="global_planner/GlobalPlanner"/>
+    <rosparam file="$(find pkg03_nav1)/param/nav/global_planner_params.yaml" command="load" ns="move_base"/>
+
+    <!-- 导航TEB局部路径规划器参数 -->
+    <param name="move_base/base_local_planner"    type="string" value="teb_local_planner/TebLocalPlannerROS"/>
+    <rosparam file="$(find pkg03_nav1)/param/nav/teb_local_planner_params.yaml"  command="load" ns="move_base"/>
+
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <!-- 导航代价地图公共参数 -->
+        <rosparam file="$(find pkg03_nav1)/param/costmap/costmap_common_params.yaml"     command="load" ns="global_costmap"/>
+        <rosparam file="$(find pkg03_nav1)/param/costmap/costmap_common_params.yaml"     command="load" ns="local_costmap"/>
+        <!-- 全局/局部代价地图特有参数 -->
+        <rosparam file="$(find pkg03_nav1)/param/costmap/local_costmap_params.yaml"      command="load"/>
+        <rosparam file="$(find pkg03_nav1)/param/costmap/global_costmap_params.yaml"     command="load"/>
     </node>
 
 </launch>
